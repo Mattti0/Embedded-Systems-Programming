@@ -27,8 +27,12 @@ sigint_handler(int signalId)
     running = 0;
 }
 
-void getValues(float *val)
+void getValuesFromDatabase(float *val)
 {
+	for(int i = 0; i < 10; i++)
+	{
+
+	}
 
 }
 
@@ -41,11 +45,6 @@ void getTimestamps(Timestamp *ts)
         Timestamp_clearFlags(ts+i);
         Timestamp_setTimeInMilliseconds(ts+i, timestamp);
         Timestamp_setLeapSecondKnown(ts+i, true);
-
-        /* toggle clock-not-synchronized flag in timestamp */
-        if (((int) t % 2) == 0)
-            Timestamp_setClockNotSynchronized(ts+i, true);
-
     }
 
 }
@@ -137,7 +136,8 @@ main(int argc, char** argv)
    char *server = "localhost";
    char *user = "root";
    char *password = "PASSWORD"; /* set me first */
-   char *database = "mysql";
+   char *database = "iec";
+
     printf("Using libIEC61850 version %s\n", LibIEC61850_getVersionString());
 
     iedServer = IedServer_create(&iedModel);
@@ -174,12 +174,12 @@ main(int argc, char** argv)
 
     signal(SIGINT, sigint_handler);
 
-    float val;
-    Timestamp t;
+    float val[10];
+    Timestamp t[10];
 
     while (running) {
 
-    	getValues(&val);
+    	getValuesFromDatabase(&val);
     	getTimestamps(&t);
 
         updateValues(&val, &t);
