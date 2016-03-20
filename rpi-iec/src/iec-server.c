@@ -36,6 +36,7 @@ void getValuesFromDatabase(float *val)
 
 }
 
+
 void getTimestamps(Timestamp *ts)
 {
     uint64_t timestamp = Hal_getTimeInMs();
