@@ -30,21 +30,20 @@ int main(void)
 	char *my_user = "iec_usr";
 	char *my_pass = "iec_pass";
 	char *database = "iec_base";
+	my_con = mysql_init(NULL);
+	mysql_real_connect(my_con, my_server, my_user, my_pass, database, 0, NULL, 0);
 
 	char query[256];
 	int column;
 	int row = 0;
 
-	my_con = mysql_init(NULL);
-
-	mysql_real_connect(my_con, my_server, my_user, my_pass, database, 0, NULL, 0);
-
 	modbus_t *mb_con;
 	uint16_t tempMBValue;
 	int ret;
+
+	mb_con = modbus_new_rtu(1, 9600, "N", 8, 2);
+	modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485);
 //	float tempValue;
-
-
 
 	while(1)
 	{
@@ -70,7 +69,8 @@ int main(void)
 		sleep(10);
 	}
 
-   mysql_free_result(result);
-   mysql_close(my_con);
+	modbus_free(mb_con);
+	mysql_free_result(result);
+	mysql_close(my_con);
 }
 
