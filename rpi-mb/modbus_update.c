@@ -66,7 +66,7 @@ int main(void)
 				}
 			}
 		}
-		sleep(10);
+		sleep(1);
 	}
 
 	modbus_free(mb_con);
