@@ -4,7 +4,10 @@
  *  Created on: 20.3.2016
  *      Author: Matti
  */
-#include <mysql.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+#include <mysql/mysql.h>
 #include <modbus.h>
 
 char *time_stamp(){
@@ -35,13 +38,14 @@ int main(void)
 
 	char query[256];
 	int column;
-	int row = 0;
+//	int row = 0;
 
 	modbus_t *mb_con;
 	uint16_t tempMBValue;
+	uint16_t tempMBAddress;
 	int ret;
 
-	mb_con = modbus_new_rtu(1, 9600, "N", 8, 2);
+	mb_con = modbus_new_rtu("/dev/ttyUSB0", 9600, 'N', 8, 2);
 	modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485);
 //	float tempValue;
 
@@ -53,7 +57,7 @@ int main(void)
 
 			while((row = mysql_fetch_row(result)))
 			{
-				if((modbus_read_input_registers(mb_con, row[1], &tempMBValue) = ret) > 0)
+				if((ret = modbus_read_input_registers(mb_con, atoi(row[1]), 1, &tempMBValue)) > 0)
 				{
 					sprintf(query, "UPDATE tValues SET Value = %d, Time = %s, Validness = 'TRUE' WHERE id = %d;", tempMBValue, time_stamp, row[0]);
 					if(!mysql_query(my_con, query))
