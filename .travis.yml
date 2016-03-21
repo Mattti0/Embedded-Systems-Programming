@@ -1,1 +1,5 @@
 language: C
+sudo: required
+
+install:
+	- sudo apt-get install libmodbus5
