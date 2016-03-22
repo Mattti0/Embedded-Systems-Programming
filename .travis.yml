@@ -1,6 +1,8 @@
 language: C
+sudo: required
 
 compiler:
  - gcc
 
-
+before_install:
+ - sudo apt-get install autoconf -gg
