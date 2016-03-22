@@ -1,7 +1,5 @@
 language: C
 
-sudo: required
-
 compiler:
  - gcc
 
