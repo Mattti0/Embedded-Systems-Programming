@@ -2,3 +2,5 @@
 # empty configuration file for initialisation
 cd rpi-mb/libmodbus
 ./autogen.sh && ./configure && make
+pwd
+#export PKG_CONFIG_PATH=
