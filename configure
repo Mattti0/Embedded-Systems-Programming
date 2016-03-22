@@ -2,4 +2,4 @@
 # empty configuration file for initialisation
 cd rpi-mb/libmodbus
 ./autogen.sh
-./configure && make install
+sudo ./configure && make install
