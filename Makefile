@@ -3,4 +3,4 @@ modbusdir=-I/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmo
 comfile=./rpi-mb/modbus_update.c
 
 all:
-	gcc $(mysql_lib) $(modbusdir) $(comfile)
+	gcc $(mysql_lib) $(modbusdir) $(comfile) -lmodbus
