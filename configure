@@ -1,5 +1,5 @@
 #! /bin/sh
 # empty configuration file for initialisation
-cd rpi-mb/libmodbus-3.1.2
+cd rpi-mb/libmodbus
 ./autogen.sh
 ./configure && make install
