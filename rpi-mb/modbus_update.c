@@ -38,7 +38,6 @@ int main(void)
 
 	char query[256];
 	int column;
-//	int row = 0;
 
 	modbus_t *mb_con;
 	uint16_t tempMBValue;
@@ -47,7 +46,6 @@ int main(void)
 
 	mb_con = modbus_new_rtu("/dev/ttyUSB0", 9600, 'N', 8, 2);
 	modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485);
-//	float tempValue;
 
 	while(1)
 	{
