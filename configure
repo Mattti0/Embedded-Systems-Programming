@@ -1,7 +1,7 @@
 #! /bin/sh
 # empty configuration file for initialisation
-#cd rpi-mb/libmodbus
-#./autogen.sh && ./configure && make
+cd rpi-mb/libmodbus
+./autogen.sh && ./configure && make
 #pwd
-#export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmodbus
+export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmodbus
 
