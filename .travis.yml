@@ -8,3 +8,6 @@ before_install:
  - sudo apt-get update
  - sudo apt-get install autoconf
  - sudo apt-get install libmodbus5
+ 
+notifications:
+ slack: ttmasterrace:59xUrYLCSNZawMT60WHufFKx
