@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <mysql/mysql.h>
 #include <modbus.h>
+#include "../rpi-mysql/mysql_info.h"
 
 char *time_stamp(){
 
@@ -34,7 +35,7 @@ int main(void)
 	char *my_pass = "iec_pass";
 	char *database = "iec_base";*/
 	my_con = mysql_init(NULL);
-	mysql_real_connect(my_con, my_server, my_user, my_pass, database, 0, NULL, 0);
+	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
 
 	char query[256];
 	int column;
@@ -49,7 +50,9 @@ int main(void)
 
 	while(1)
 	{
-		if(!mysql_query(my_con, "SELECT id, mb_addr FROM tIndex"))
+		sprintf(query, "SELECT id, mb_addr FROM %s", idTable);
+		//if(!mysql_query(my_con, "SELECT id, mb_addr FROM tIndex"))
+		if(!mysql_query(my_con, query))
 		{
 			result = mysql_store_result(my_con);
 
@@ -57,7 +60,7 @@ int main(void)
 			{
 				if((ret = modbus_read_input_registers(mb_con, atoi(row[1]), 1, &tempMBValue)) > 0)
 				{
-					sprintf(query, "UPDATE tValues SET Value = %d, Time = %s, Validness = 'TRUE' WHERE id = %d;", tempMBValue, time_stamp, row[0]);
+					sprintf(query, "UPDATE %s SET Value = %d, Time = %s, Validness = 'TRUE' WHERE id = %d;", valueTable, tempMBValue, time_stamp, row[0]);
 					if(!mysql_query(my_con, query))
 					{
 					}
