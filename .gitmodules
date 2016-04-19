@@ -1,0 +1,6 @@
+[submodule "rpi-iec/libiec61850"]
+	path = rpi-iec/libiec61850
+	url = https://github.com/tuvsmartgrid/libiec61850.git
+[submodule "rpi-mb/libmodbus"]
+	path = rpi-mb/libmodbus
+	url = https://github.com/stephane/libmodbus.git
