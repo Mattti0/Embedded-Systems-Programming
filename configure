@@ -4,4 +4,5 @@ cd rpi-mb/libmodbus
 ./autogen.sh && ./configure && make
 #pwd
 export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmodbus
-
+cd ../..
+./rpi-mysql/initmysql.sh
