@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Fill your own details ##
 server="localhost"
 user="root"
 password="root"
