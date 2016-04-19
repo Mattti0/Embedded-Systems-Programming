@@ -29,10 +29,10 @@ int main(void)
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
-	char *my_server = "localhost";
+/*	char *my_server = "localhost";
 	char *my_user = "iec_usr";
 	char *my_pass = "iec_pass";
-	char *database = "iec_base";
+	char *database = "iec_base";*/
 	my_con = mysql_init(NULL);
 	mysql_real_connect(my_con, my_server, my_user, my_pass, database, 0, NULL, 0);
 
