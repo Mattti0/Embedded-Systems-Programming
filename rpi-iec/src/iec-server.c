@@ -134,8 +134,8 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
     {
     	if (parameter == objects[i])
     	{
-        	IedServer_updateTimestampAttributeValue(iedServer, objects[i], timeStamp);
-            IedServer_updateFloatAttributeValue(iedServer, objects[i], value);
+    		IedServer_updateUTCTimeAttributeValue(iedServer, objects[i], timeStamp);
+    		IedServer_updateAttributeValue(iedServer, objects[i], value);
     	}
     }
 
