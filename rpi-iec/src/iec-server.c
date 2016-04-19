@@ -98,24 +98,24 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
 
     uint64_t timeStamp = Hal_getTimeInMs();
 
-    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn0) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn0_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn0_mag_f, value);
+    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn0) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_mag_f, value);
     }
 
-    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn1) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn1_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn1_mag_f, value);
+    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn1) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_mag_f, value);
     }
 
-    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn2) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn2_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn2_mag_f, value);
+    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn2) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_mag_f, value);
     }
 
-    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn3) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn3_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn3_mag_f, value);
+    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn3) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_mag_f, value);
     }
 
     return CONTROL_RESULT_OK;
