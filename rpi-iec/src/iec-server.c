@@ -104,7 +104,7 @@ void updateValues()
     IedServer_lockDataModel(iedServer);
     for (i = 0; i < 4; i++)
     {
-    	IedServer_updateTimestampAttributeValue(iedServer, objects[i], values[i].ts);
+    	IedServer_updateTimestampAttributeValue(iedServer, objects[i], &values[i].ts);
         IedServer_updateFloatAttributeValue(iedServer, objects[i], values[i].value);
     }
     IedServer_unlockDataModel(iedServer);
@@ -129,24 +129,13 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
 
     uint64_t timeStamp = Hal_getTimeInMs();
 
-    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn0) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_mag_f, value);
-    }
-
-    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn1) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_mag_f, value);
-    }
-
-    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn2) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_mag_f, value);
-    }
-
-    if (parameter == IEDMODEL_VaconFreqConverter_DSFC1_AnIn3) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_mag_f, value);
+    for (i = 0; i < 4; i++)
+    {
+    	if (parameter == objects[i])
+    	{
+        	IedServer_updateTimestampAttributeValue(iedServer, objects[i], timeStamp);
+            IedServer_updateFloatAttributeValue(iedServer, objects[i], value);
+    	}
     }
 
     return CONTROL_RESULT_OK;
