@@ -64,7 +64,7 @@ int main(void)
 			{
 				if((ret = modbus_read_input_registers(mb_con, atoi(row[1]), 1, &tempMBValue)) > 0)
 				{
-					sprintf(query, "UPDATE %s SET Value = %d, Time = %s, Validness = 'TRUE' WHERE id = %d;", valueTable, tempMBValue, time_stamp, atoi(row[0]));
+					sprintf(query, "UPDATE %s SET Value = %d, Time = %ld, Validness = 'TRUE' WHERE id = %d;", valueTable, tempMBValue, (long)time(NULL), atoi(row[0]));
 					if(!mysql_query(my_con, query))
 					{
 					}
