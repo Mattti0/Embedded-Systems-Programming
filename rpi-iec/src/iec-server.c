@@ -100,6 +100,7 @@ void getTimestamps(Timestamp *ts)
 
 void updateValues()
 {
+	int i;
     IedServer_lockDataModel(iedServer);
     for (i = 0; i < 4; i++)
     {
