@@ -98,17 +98,14 @@ void getTimestamps(Timestamp *ts)
 
 }
 
-void updateValues(float *val, Timestamp *ts)
+void updateValues()
 {
     IedServer_lockDataModel(iedServer);
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_t, ts);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0_mag_f, *(val));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_t, ts+1);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1_mag_f, *(val+1));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_t, ts+2);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_mag_f, *(val+2));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_t, ts+3);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_mag_f, *(val+3));
+    for (i = 0; i < 4; i++)
+    {
+    	IedServer_updateTimestampAttributeValue(iedServer, objects[i], values[i].ts);
+        IedServer_updateFloatAttributeValue(iedServer, objects[i], values[i].value);
+    }
     IedServer_unlockDataModel(iedServer);
 }
 
