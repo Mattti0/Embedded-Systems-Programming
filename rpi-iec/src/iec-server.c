@@ -113,6 +113,7 @@ void updateValues()
 static ControlHandlerResult
 controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
 {
+	int i;
     if (test)
         return CONTROL_RESULT_FAILED;
 
