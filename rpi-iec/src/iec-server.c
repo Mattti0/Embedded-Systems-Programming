@@ -29,7 +29,8 @@ sigint_handler(int signalId)
 
 void getValuesFromDatabase(float *val)
 {
-	for(int i = 0; i < 10; i++)
+	int i;
+	for(i = 0; i < 10; i++)
 	{
 
 	}
@@ -39,9 +40,10 @@ void getValuesFromDatabase(float *val)
 
 void getTimestamps(Timestamp *ts)
 {
+	int i;
     uint64_t timestamp = Hal_getTimeInMs();
 
-    for(int i = 0; i < 10; i++)
+    for(i = 0; i < 10; i++)
     {
         Timestamp_clearFlags(ts+i);
         Timestamp_setTimeInMilliseconds(ts+i, timestamp);
@@ -95,22 +97,22 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
 
     uint64_t timeStamp = Hal_getTimeInMs();
 
-    if (parameter == IEDMODEL_GenericIO_GGIO1_SPCSO1) {
+    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO1) {
         IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO1_t, timeStamp);
         IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO1_stVal, value);
     }
 
-    if (parameter == IEDMODEL_GenericIO_GGIO1_SPCSO2) {
+    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO2) {
         IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO2_t, timeStamp);
         IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO2_stVal, value);
     }
 
-    if (parameter == IEDMODEL_GenericIO_GGIO1_SPCSO3) {
+    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO3) {
         IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO3_t, timeStamp);
         IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO3_stVal, value);
     }
 
-    if (parameter == IEDMODEL_GenericIO_GGIO1_SPCSO4) {
+    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO4) {
         IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO4_t, timeStamp);
         IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO4_stVal, value);
     }
