@@ -143,21 +143,21 @@ main(int argc, char** argv)
     iedServer = IedServer_create(&iedModel);
 
     /* Install handler for operate command */
-    IedServer_setControlHandler(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO1,
+    IedServer_setControlHandler(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn0,
             (ControlHandler) controlHandlerForBinaryOutput,
-            IEDMODEL_GenericIO_GGIO1_SPCSO1);
+			IEDMODEL_VaconFreqConverter_DSFC1_AnIn0);
 
-    IedServer_setControlHandler(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO2,
+    IedServer_setControlHandler(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn1,
             (ControlHandler) controlHandlerForBinaryOutput,
-            IEDMODEL_GenericIO_GGIO1_SPCSO2);
+			IEDMODEL_VaconFreqConverter_DSFC1_AnIn1);
 
-    IedServer_setControlHandler(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO3,
+    IedServer_setControlHandler(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2,
             (ControlHandler) controlHandlerForBinaryOutput,
-            IEDMODEL_GenericIO_GGIO1_SPCSO3);
+			IEDMODEL_VaconFreqConverter_DSFC1_AnIn2);
 
-    IedServer_setControlHandler(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO4,
+    IedServer_setControlHandler(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3,
             (ControlHandler) controlHandlerForBinaryOutput,
-            IEDMODEL_GenericIO_GGIO1_SPCSO4);
+			IEDMODEL_VaconFreqConverter_DSFC1_AnIn3);
 
     IedServer_setConnectionIndicationHandler(iedServer, (IedConnectionIndicationHandler) connectionHandler, NULL);
 
