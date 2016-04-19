@@ -14,6 +14,7 @@
 #include <mysql.h>
 
 #include "static_model.h"
+#include "../../rpi-mysql/mysql_info.h"
 
 /* import IEC 61850 device model created from SCL-File */
 extern IedModel iedModel;
@@ -97,24 +98,24 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
 
     uint64_t timeStamp = Hal_getTimeInMs();
 
-    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO1) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO1_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO1_stVal, value);
+    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn0) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn0_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn0_mag_f, value);
     }
 
-    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO2) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO2_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO2_stVal, value);
+    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn1) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn1_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn1_mag_f, value);
     }
 
-    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO3) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO3_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO3_stVal, value);
+    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn2) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn2_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn2_mag_f, value);
     }
 
-    if (parameter == IEDMODEL_VaconFreqConverter_GGIO1_SPCSO4) {
-        IedServer_updateUTCTimeAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO4_t, timeStamp);
-        IedServer_updateAttributeValue(iedServer, IEDMODEL_GenericIO_GGIO1_SPCSO4_stVal, value);
+    if (parameter == iedModel_VaconFreqConverter_DSFC1_AnIn3) {
+        IedServer_updateUTCTimeAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn3_t, timeStamp);
+        IedServer_updateAttributeValue(iedServer, iedModel_VaconFreqConverter_DSFC1_AnIn3_mag_f, value);
     }
 
     return CONTROL_RESULT_OK;
@@ -133,13 +134,9 @@ connectionHandler (IedServer self, ClientConnection connection, bool connected, 
 int
 main(int argc, char** argv)
 {
-   MYSQL *conn;
-   MYSQL_RES *res;
-   MYSQL_ROW row;
-   char *server = "localhost";
-   char *user = "root";
-   char *password = "PASSWORD"; /* set me first */
-   char *database = "iec";
+	MYSQL *my_con;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
 
     printf("Using libIEC61850 version %s\n", LibIEC61850_getVersionString());
 
