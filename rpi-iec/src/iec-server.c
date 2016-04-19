@@ -70,7 +70,7 @@ void getValuesFromDatabase()
 				res_temp = mysql_store_result(my_con);
 				row = mysql_fetch_row(res_temp);
 				values[i].value = atof(row[0]);
-				values[i].ts = row[1];
+				Timestamp_setTimeInSeconds(&values[i].ts, atol(row[1]);
 				values[i].validity = row[2];
 			}
 
