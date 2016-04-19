@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <mysql.h>
+#include <string.h>
 
 #include "static_model.h"
 #include "../../rpi-mysql/mysql_info.h"
@@ -71,7 +72,10 @@ void getValuesFromDatabase()
 				row = mysql_fetch_row(res_temp);
 				values[i].value = atof(row[0]);
 				Timestamp_setTimeInSeconds(&values[i].ts, atol(row[1]));
-				values[i].validity = row[2];
+				if(!strcmp(row[2], "True"))
+					values[i].validity = 1;
+				else
+					values[i].validity = 0;
 			}
 
 		}
