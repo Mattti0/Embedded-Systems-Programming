@@ -6,6 +6,8 @@ password="root"
 base="iec_base"
 table="iec_table"
 
+
+
 if [ $server = localhost ]
 then
 	mysql -u $user -p $password << EOF
