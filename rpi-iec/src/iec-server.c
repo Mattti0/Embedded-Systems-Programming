@@ -16,11 +16,31 @@
 #include "static_model.h"
 #include "../../rpi-mysql/mysql_info.h"
 
+typedef struct {
+	float value;
+	Timestamp ts;
+	char validity;
+} iecValue_t;
+
+static iecValue_t values[4];
+
+
+static void * objects[4] = {IEDMODEL_VaconFreqConverter_DSFC1_AnIn0,
+					IEDMODEL_VaconFreqConverter_DSFC1_AnIn1,
+					IEDMODEL_VaconFreqConverter_DSFC1_AnIn2,
+					IEDMODEL_VaconFreqConverter_DSFC1_AnIn3};
+
+static const char *names[4] = {"AnIn0", "AnIn1", "AnIn2", "AnIn3"};
+
 /* import IEC 61850 device model created from SCL-File */
 extern IedModel iedModel;
 
 static int running = 0;
 static IedServer iedServer = NULL;
+
+MYSQL *my_con;
+MYSQL_RES *result;
+MYSQL_ROW row;
 
 void
 sigint_handler(int signalId)
@@ -28,12 +48,33 @@ sigint_handler(int signalId)
     running = 0;
 }
 
-void getValuesFromDatabase(float *val)
+void getValuesFromDatabase()
 {
 	int i;
-	for(i = 0; i < 10; i++)
-	{
+	char query[256];
+	int column;
+	int ret;
+	MYSQL_ROW row_temp;
+	MYSQL_RES *res_temp;
 
+	sprintf(query, "SELECT id FROM %s WHERE iec_name = '%s'", idTable, names[i]);
+	if (!mysql_query(my_con, query))
+	{
+		result = mysql_store_result(my_con);
+		for (i = 0; i < 4; i++)
+		{
+			row_temp = mysql_fetch_row(result);
+			sprintf(query, "SELECT Value, Time, Validness FROM %s WHERE id = %d", valueTable, row_temp[0]);
+			if (!mysql_query(my_con, query))
+			{
+				res_temp = mysql_store_result(my_con);
+				row = mysql_fetch_row(res_temp);
+				values[i].value = (float)row[0];
+				values[i].ts = row[1];
+				values[i].validity = row[2];
+			}
+
+		}
 	}
 
 }
@@ -64,18 +105,6 @@ void updateValues(float *val, Timestamp *ts)
     IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn2_mag_f, *(val+2));
     IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_t, ts+3);
     IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn3_mag_f, *(val+3));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn4_t, ts+4);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn4_mag_f, *(val+4));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn5_t, ts+5);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn5_mag_f, *(val+5));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn6_t, ts+6);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn6_mag_f, *(val+6));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn7_t, ts+7);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn7_mag_f, *(val+7));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn8_t, ts+8);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn8_mag_f, *(val+8));
-    IedServer_updateTimestampAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn9_t, ts+9);
-    IedServer_updateFloatAttributeValue(iedServer, IEDMODEL_VaconFreqConverter_DSFC1_AnIn9_mag_f, *(val+9));
     IedServer_unlockDataModel(iedServer);
 }
 
@@ -134,10 +163,6 @@ connectionHandler (IedServer self, ClientConnection connection, bool connected, 
 int
 main(int argc, char** argv)
 {
-	MYSQL *my_con;
-	MYSQL_RES *result;
-	MYSQL_ROW row;
-
     printf("Using libIEC61850 version %s\n", LibIEC61850_getVersionString());
 
     iedServer = IedServer_create(&iedModel);
@@ -170,20 +195,18 @@ main(int argc, char** argv)
         exit(-1);
     }
 
-    running = 1;
+	my_con = mysql_init(NULL);
+	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
+
+	running = 1;
 
     signal(SIGINT, sigint_handler);
 
-    float val[10];
-    Timestamp t[10];
-
     while (running) {
 
-    	getValuesFromDatabase(&val);
-    	getTimestamps(&t);
+    	getValuesFromDatabase();
 
-        updateValues(&val, &t);
-
+    	updateValues();
 
         Thread_sleep(100);
     }
