@@ -6,4 +6,5 @@ cd rpi-mb/libmodbus
 export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmodbus
 echo "Building mysql header"
 cd ../..
+pwd
 ./rpi-mysql/initmysql.sh
