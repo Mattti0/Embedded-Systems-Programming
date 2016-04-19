@@ -11,6 +11,10 @@
 #include <modbus.h>
 #include "../rpi-mysql/mysql_info.h"
 
+#ifndef __MYSQL_INFO_H_
+#error "MySQL info not exists run rpi-mysql/initmysql.sh"
+#endif
+
 char *time_stamp(){
 
 	char *timestamp = (char *)malloc(sizeof(char) * 20);
@@ -51,7 +55,7 @@ int main(void)
 	while(1)
 	{
 		sprintf(query, "SELECT id, mb_addr FROM %s", idTable);
-		//if(!mysql_query(my_con, "SELECT id, mb_addr FROM tIndex"))
+		/*if(!mysql_query(my_con, "SELECT id, mb_addr FROM tIndex"))*/
 		if(!mysql_query(my_con, query))
 		{
 			result = mysql_store_result(my_con);
@@ -67,7 +71,7 @@ int main(void)
 				}
 				else if (ret == 0)
 				{
-					sprintf(query, "UPDATE tValues SET Validness = 'FALSE' WHERE id = %d;", row[0]);
+					sprintf(query, "UPDATE %s SET Validness = 'FALSE' WHERE id = %d;", valueTable, (int)row[0]);
 				}
 			}
 		}
