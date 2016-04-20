@@ -3,36 +3,27 @@
 ## Fill your own details ##
 server="localhost"
 user="root"
-password="root"
+password="YOUR-PASSWORD-HERE"
 base="iec_base"
 addresstable="tIndex"
 valuetable="tValues"
 
 
-#if [ -z $1 ]
-#	then
-#		if [ $server = localhost ]
-#			then
-#				echo "mysql -u $user -p $password" > /dev/null
-#			elif [ $server -n ]
-#				echo "mysql -h $server -u $user -p $password" > /dev/null
-#		fi
-#		echo	"CREATE DATABASE IF NOT EXISTS ${base};"
-#		echo	"USE ${base};"
-#
-#		echo	"CREATE TABLE IF NOT EXISTS ${addresstable}("
-#		echo		"id INT NOT NULL,"
-#		echo		"mb_addr NOT NULL UNSIGNED MEDIUMINT,"
-#		echo		"iec_name VARCHAR(50) NOT NULL,"
-#		echo		"PRIMARY_KEY(id));"
-#
-#		echo	"CREATE TABLE IF NOT EXISTS ${valuetable}("
-#		echo		"id INT NOT NULL,"
-#		echo		"Value FLOAT(7,2) NOT NULL,"
-#		echo		"Time DATETIME NOT NULL,"
-#		echo		"Validness BOOL NOT NULL,"
-#		echo		"PRIMARY_KEY(id));"
-#fi
+
+if [ -z $1 ]
+  then
+    if [ $server = localhost ]
+      then
+	    	mysql -u $user -p$password -e "CREATE DATABASE IF NOT EXISTS ${base};"
+				mysql -u $user -p$password -e "CREATE TABLE IF NOT EXISTS ${base}.${addresstable}(id INT NOT NULL, mb_addr INT NOT NULL, iec_name VARCHAR(50) NOT NULL, PRIMARY KEY(id));"
+				mysql -u $user -p$password -e "CREATE TABLE IF NOT EXISTS ${base}.${valuetable}(id INT NOT NULL,Value FLOAT(7,2) NOT NULL,Time BIGINT NOT NULL,Validness INT NOT NULL,PRIMARY KEY(id));"
+    elif [ $server -n ]
+			then
+				echo "mysql -h $server -u $user -p $password" > /dev/null
+    fi
+fi
+
+
 ## Create mysql header file ##
 
 echo "#ifndef __MYSQL_INFO_H_" > mysql_info.h
