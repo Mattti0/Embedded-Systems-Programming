@@ -18,6 +18,8 @@
 #include "../../rpi-mysql/mysql_info.h"
 
 typedef struct {
+	DataAttribute *p_attr;
+	DataAttribute *p_ts;
 	float value;
 	Timestamp ts;
 	char validity;
@@ -58,14 +60,14 @@ void getValuesFromDatabase()
 	MYSQL_ROW row_temp;
 	MYSQL_RES *res_temp;
 
+for (i = 0; i < 4; i++)
+{
 	sprintf(query, "SELECT id FROM %s WHERE iec_name = '%s'", idTable, names[i]);
 	if (!mysql_query(my_con, query))
 	{
-		result = mysql_store_result(my_con);
-		for (i = 0; i < 4; i++)
-		{
+			result = mysql_store_result(my_con);
 			row_temp = mysql_fetch_row(result);
-			sprintf(query, "SELECT Value, Time, Validness FROM %s WHERE id = %d", valueTable, row_temp[0]);
+			sprintf(query, "SELECT Value, Time, Validness FROM %s WHERE id = %d", valueTable, atoi(row_temp[0]));
 			if (!mysql_query(my_con, query))
 			{
 				res_temp = mysql_store_result(my_con);
@@ -78,8 +80,10 @@ void getValuesFromDatabase()
 					values[i].validity = 0;
 			}
 
-		}
 	}
+	else
+		printf("query failed\n");
+}
 
 }
 
@@ -104,8 +108,8 @@ void updateValues()
     IedServer_lockDataModel(iedServer);
     for (i = 0; i < 4; i++)
     {
-    	IedServer_updateTimestampAttributeValue(iedServer, objects[i], &values[i].ts);
-        IedServer_updateFloatAttributeValue(iedServer, objects[i], values[i].value);
+    		IedServer_updateTimestampAttributeValue(iedServer, objects[i], &values[i].ts);
+        IedServer_updateFloatAttributeValue(iedServer, values[i].p_attr, values[i].value);
     }
     IedServer_unlockDataModel(iedServer);
 }
@@ -135,7 +139,7 @@ controlHandlerForBinaryOutput(void* parameter, MmsValue* value, bool test)
     	if (parameter == objects[i])
     	{
     		IedServer_updateUTCTimeAttributeValue(iedServer, objects[i], timeStamp);
-    		IedServer_updateAttributeValue(iedServer, objects[i], value);
+    		IedServer_updateAttributeValue(iedServer, values[i].p_attr, value);
     	}
     }
 
@@ -189,6 +193,16 @@ main(int argc, char** argv)
 
 	my_con = mysql_init(NULL);
 	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
+
+	values[0].p_attr = &iedModel_VaconFreqConverter_DSFC1_AnIn0_mag_f;
+	values[1].p_attr = &iedModel_VaconFreqConverter_DSFC1_AnIn1_mag_f;
+	values[2].p_attr = &iedModel_VaconFreqConverter_DSFC1_AnIn2_mag_f;
+	values[3].p_attr = &iedModel_VaconFreqConverter_DSFC1_AnIn3_mag_f;
+
+	values[0].p_ts = &iedModel_VaconFreqConverter_DSFC1_AnIn0_t;
+	values[0].p_ts = &iedModel_VaconFreqConverter_DSFC1_AnIn1_t;
+	values[0].p_ts = &iedModel_VaconFreqConverter_DSFC1_AnIn2_t;
+	values[0].p_ts = &iedModel_VaconFreqConverter_DSFC1_AnIn3_t;
 
 	running = 1;
 
