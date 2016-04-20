@@ -8,4 +8,4 @@ export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/r
 echo "Building mysql header"
 cd ../../rpi-mysql
 #pwd
-./initmysql.sh
+./initmysql.sh no-db-creation

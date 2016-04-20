@@ -10,7 +10,7 @@ valuetable="tValues"
 
 
 
-if [ -z $1 ]
+if [ $# -eq 0 ]
   then
     if [ $server = localhost ]
       then
