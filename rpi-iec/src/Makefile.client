@@ -1,4 +1,4 @@
-LIBIEC_HOME=../..
+LIBIEC_HOME=../libiec61850
 
 PROJECT_BINARY_NAME = mms_client_example3
 PROJECT_SOURCES = mms_client_example3.c
