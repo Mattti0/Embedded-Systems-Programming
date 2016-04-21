@@ -24,28 +24,20 @@ int main(void)
 	MYSQL_ROW row;
 
 	char query[256];
-
 	modbus_t *mb_con;
 	uint16_t tempMBValue;
 	int ret;
 	unsigned int timestamp;
-	my_con = mysql_init(NULL);
-	if(mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0))
-		printf("Mysql connection succeed\n");
-	else printf("Mysql nope...\n");
 
 	my_con = mysql_init(NULL);
 	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
 
 	mb_con = modbus_new_rtu("/dev/ttyUSB0", 9600, 'N', 8, 2);
-	printf("mb_con: %d\n", mb_con);
-	if (!modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485))
-		printf("Serial setted\n");
-	else
-		fprintf(stderr, "Set serial failed:%d\n ", errno);
-	if (!modbus_set_slave(mb_con, 1))
-		printf("Slave setted\n");
+	modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485);
+	modbus_set_slave(mb_con, 1);
 	modbus_connect(mb_con);
+
+	printf("Modbus reader running ... \n");
 
 	while(1)
 	{
@@ -73,8 +65,6 @@ int main(void)
 				}
 			}
 		}
-		else
-			printf("mysql not connected\n");
 		sleep(1);
 	}
 	modbus_close(mb_con);
@@ -82,4 +72,3 @@ int main(void)
 	mysql_free_result(result);
 	mysql_close(my_con);
 }
-

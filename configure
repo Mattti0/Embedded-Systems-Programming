@@ -2,10 +2,12 @@
 git submodule init
 git submodule update
 
-cd rpi-mb/libmodbus
+project_dir=`pwd`
+
+cd $project_dir/rpi-mb/libmodbus
 ./autogen.sh && ./configure && make
-export PKG_CONFIG_PATH=/home/travis/build/Mattti0/Embedded-Systems-Programming/rpi-mb/libmodbus
+export PKG_CONFIG_PATH=$project_dir/rpi-mb/libmodbus
 
 echo "Building mysql header"
-cd ../../rpi-mysql
+cd $project_dir/rpi-mysql
 ./initmysql.sh
