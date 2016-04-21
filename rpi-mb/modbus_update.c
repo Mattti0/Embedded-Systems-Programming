@@ -4,6 +4,7 @@
  *  Created on: 20.3.2016
  *      Author: Matti
  */
+#include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -21,15 +22,14 @@ int main(void)
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 
-	my_con = mysql_init(NULL);
-	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
-
 	char query[256];
-	int column;
 
 	modbus_t *mb_con;
 	uint16_t tempMBValue;
 	int ret;
+
+	my_con = mysql_init(NULL);
+	mysql_real_connect(my_con, server, my_user, my_pass, database, 0, NULL, 0);
 
 	mb_con = modbus_new_rtu("/dev/ttyUSB0", 9600, 'N', 8, 2);
 	modbus_rtu_set_serial_mode(mb_con, MODBUS_RTU_RS485);
@@ -45,19 +45,17 @@ int main(void)
 			{
 				if((ret = modbus_read_input_registers(mb_con, atoi(row[1]), 1, &tempMBValue)) > 0)
 				{
-					sprintf(query, "UPDATE %s SET Value = %d, Time = %l, Validness = 'TRUE' WHERE id = %d;", valueTable, tempMBValue, (long)time(NULL), atoi(row[0]));
+					sprintf(query, "UPDATE %s SET Value = %d, Time = %l, Validness = 'TRUE' WHERE id = %d;", valueTable, tempMBValue, ((long int)time(NULL)), atoi(row[0]));
 					if(!mysql_query(my_con, query))
 					{
 					}
 				}
-				else if (ret == 0)
-				{
-					sprintf(query, "UPDATE %s SET Validness = 'FALSE' WHERE id = %d;", valueTable, atoi(row[0]));
-				}
 				else
 				{
-					/* Error */
 					sprintf(query, "UPDATE %s SET Validness = 'FALSE' WHERE id = %d;", valueTable, atoi(row[0]));
+					if (!mysql_query(my_con, query))
+					{
+					}
 				}
 			}
 		}
