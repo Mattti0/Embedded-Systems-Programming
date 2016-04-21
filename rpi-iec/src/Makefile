@@ -6,12 +6,15 @@ PROJECT_BINARY_NAME = iec_server
 PROJECT_SOURCES = iec-server.c
 PROJECT_SOURCES += static_model.c
 
+CLIENT_BINARY_NAME = mms_client_example3
+CLIENT_SOURCES = mms_client_example3.c
+
 PROJECT_ICD_FILE = model.icd
 
 include $(LIBIEC_HOME)/make/target_system.mk
 include $(LIBIEC_HOME)/make/stack_includes.mk
 
-all:	$(PROJECT_BINARY_NAME)
+all:	$(PROJECT_BINARY_NAME) $(CLIENT_BINARY_NAME)
 
 include $(LIBIEC_HOME)/make/common_targets.mk
 
@@ -24,10 +27,12 @@ model:	$(PROJECT_ICD_FILE)
 
 $(PROJECT_BINARY_NAME):	$(PROJECT_SOURCES) $(LIB_NAME)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $(PROJECT_BINARY_NAME) $(PROJECT_SOURCES) $(INCLUDES) $(LIB_NAME) $(LDLIBS)
-#	$(CP) $(PROJECT_BINARY_NAME) vmd-filestore/IEDSERVER.BIN
+
+$(CLIENT_BINARY_NAME):	$(CLIENT_SOURCES) $(LIB_NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(CLIENT_BINARY_NAME) $(CLIENT_SOURCES) $(INCLUDES) $(LIB_NAME) $(LDLIBS)
 
 clean:
 	rm -f $(PROJECT_BINARY_NAME)
-	rm -f vmd-filestore/IEDSERVER.BIN
+	rm -f $(CLIENT_BINARY_NAME)
 
 
