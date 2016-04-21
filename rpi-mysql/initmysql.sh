@@ -3,7 +3,7 @@
 ## Fill your own details ##
 server="localhost"
 user="root"
-password="mysql-root-pwd"
+password="YOUR PASSWORD HERE"
 base="iec_base"
 addresstable="tIndex"
 valuetable="tValues"
