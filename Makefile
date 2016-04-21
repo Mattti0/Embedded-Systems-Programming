@@ -6,6 +6,6 @@ flags=-Wall -ansi -pedantic
 
 all: modbus_reader
 
-modbus_reader:
+modbus_reader: $(modbusfiles)
 	gcc -o modbus_reader $(flags) $(modbusfiles) $(modbusdir) $(mysql_lib)
 

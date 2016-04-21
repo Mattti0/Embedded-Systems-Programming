@@ -66,6 +66,24 @@ int main(int argc, char** argv) {
 		MmsValue_delete(value);
 		printf("Value: %f\n", f);
 	}
+	value =	MmsConnection_readVariable(con, &error, "SampleIEDVaconFreqConverter", "DSFC1$MX$AnIn1$mag$f");
+	if (value == NULL)
+		printf("reading value failed!\n");
+	else
+	{
+		float f = MmsValue_toFloat(value);
+		MmsValue_delete(value);
+		printf("Value: %f\n", f);
+	}
+	value =	MmsConnection_readVariable(con, &error, "SampleIEDVaconFreqConverter", "DSFC1$MX$AnIn2$mag$f");
+	if (value == NULL)
+		printf("reading value failed!\n");
+	else
+	{
+		float f = MmsValue_toFloat(value);
+		MmsValue_delete(value);
+		printf("Value: %f\n", f);
+	}
 exit:
 	MmsConnection_destroy(con);
 }
